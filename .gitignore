@@ -1,0 +1,16 @@
+
+a.out
+*.o
+*.a
+*.so
+*.h.gch
+
+# gtags
+GPATH
+GRTAGS
+GTAGS
+
+# for source reading
+src2
+
+.#*
