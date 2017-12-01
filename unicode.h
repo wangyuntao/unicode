@@ -68,19 +68,18 @@ utf16_str *utf32_to_utf16(const uint32_t *p, size_t len);
 
 // utf8 utils
 bool utf8_is_well_formed(const uint8_t *p, size_t len);
-bool utf8_append_uint32(const utf8_str *s, uint32_t cp);
+bool utf8_append_uint32(utf8_str *s, uint32_t cp);
 
 // utf16 utils
 bool utf16_is_well_formed(const uint16_t *p, size_t len);
-bool utf16_append_uint32(const utf16_str *s, uint32_t cp);
+bool utf16_append_uint32(utf16_str *s, uint32_t cp);
 
 // utf32 utils
 bool utf32_is_well_formed(const uint32_t *p, size_t len);
-bool utf32_append_uint8(const utf32_str *s, const uint8_t *p, size_t len);
-bool utf32_append_uint16(const utf32_str *s, const uint16_t *p, size_t len);
-bool utf32_append_uint32(const utf32_str *s, uint32_t cp);
+bool utf32_append_uint8(utf32_str *s, const uint8_t *p, size_t len);
+bool utf32_append_uint16(utf32_str *s, const uint16_t *p, size_t len);
+bool utf32_append_uint32(utf32_str *s, uint32_t cp);
 
 // other utils
-
 
 #endif

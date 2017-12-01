@@ -31,9 +31,9 @@ bool utf16_is_well_formed(const uint16_t *p, size_t len) {
   return true;
 }
 
-bool utf16_append_uint32(const utf16_str *s, uint32_t cp) {
+bool utf16_append_uint32(utf16_str *s, uint32_t cp) {
   uint16_t *p, a, b;
-  
+
   if (cp < CP_MIN_SUPPLEMENTARY) {
     if (CP_IS_SURROGATE(cp)) {
       return false;

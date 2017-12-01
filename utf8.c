@@ -115,7 +115,7 @@ bool utf8_is_well_formed(const uint8_t *p, size_t len) {
   return true;
 }
 
-bool utf8_append_uint32(const utf8_str *s, uint32_t cp) {
+bool utf8_append_uint32(utf8_str *s, uint32_t cp) {
   uint8_t *p, b, l, i;
 
   if (!get_num_utf8_units_cp_requires(cp, &l)) {

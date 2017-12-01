@@ -10,7 +10,7 @@ bool utf32_is_well_formed(const uint32_t *p, size_t len) {
   return true;
 }
 
-bool utf32_append_uint8(const utf32_str *s, const uint8_t *p, size_t len) {
+bool utf32_append_uint8(utf32_str *s, const uint8_t *p, size_t len) {
   uint32_t cp;
   uint8_t b, l, i;
 
@@ -68,7 +68,7 @@ bool utf32_append_uint8(const utf32_str *s, const uint8_t *p, size_t len) {
   return true;
 }
 
-bool utf32_append_uint16(const utf32_str *s, const uint16_t *p, size_t len) {
+bool utf32_append_uint16(utf32_str *s, const uint16_t *p, size_t len) {
   uint16_t a, b;
   uint32_t cp;
 
@@ -77,7 +77,7 @@ bool utf32_append_uint16(const utf32_str *s, const uint16_t *p, size_t len) {
     len--;
 
     if (!CP_IS_SURROGATE(a)) {
-      utf32_append_uint32((uint32_t)a);
+      utf32_append_uint32(s, (uint32_t)a);
       continue;
     }
 
@@ -98,13 +98,13 @@ bool utf32_append_uint16(const utf32_str *s, const uint16_t *p, size_t len) {
     cp = (a << 10) | b;
     cp += CP_MIN_SUPPLEMENTARY;
 
-    utf32_append_uint32(cp);
+    utf32_append_uint32(s, cp);
   }
 
   return true;
 }
 
-bool utf32_append_uint32(const utf32_str *s, uint32_t cp) {
+bool utf32_append_uint32(utf32_str *s, uint32_t cp) {
   uint32_t *p = utf32_add_len(s, 1);
   *p = cp;
   return true;

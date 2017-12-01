@@ -158,7 +158,7 @@ utf8_str *utf16_to_utf8(const uint16_t *p, size_t len) {
 
   utf8_str *s2 = utf32_to_utf8(s->p, s->len);
   utf32_free(s);
-  
+
   if (s2 == NULL) return NULL;
   return s2;
 }
@@ -200,7 +200,7 @@ utf16_str *utf32_to_utf16(const uint32_t *p, size_t len) {
   return s;
 }
 
-bool cal_num_utf8_units_cp_requires(uint32_t cp, uint8_t *n) {
+bool get_num_utf8_units_cp_requires(uint32_t cp, uint8_t *n) {
   if (cp <= 0x7F) {
     *n = 1;
     return true;
@@ -213,7 +213,7 @@ bool cal_num_utf8_units_cp_requires(uint32_t cp, uint8_t *n) {
 
   if (cp <= 0xFFFF) {
     if (CP_IS_SURROGATE(cp)) {
-      return false
+      return false;
     }
     *n = 3;
     return true;
