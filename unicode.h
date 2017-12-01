@@ -68,6 +68,8 @@ utf16_str *utf32_to_utf16(const uint32_t *p, size_t len);
 
 // utf8 utils
 bool utf8_is_well_formed(const uint8_t *p, size_t len);
+bool utf8_next_uint32_len(const uint8_t *p, int *len);
+bool utf8_to_uint32(const uint8_t *p, int len, uint32_t *cp);
 bool utf8_append_uint32(utf8_str *s, uint32_t cp);
 
 // utf16 utils

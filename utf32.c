@@ -12,57 +12,24 @@ bool utf32_is_well_formed(const uint32_t *p, size_t len) {
 
 bool utf32_append_uint8(utf32_str *s, const uint8_t *p, size_t len) {
   uint32_t cp;
-  uint8_t b, l, i;
+  int l;
 
   while (len > 0) {
-    b = *p++;
-    len--;
-
-    if (b <= 0x7F) {  // 0xxxxxxx
-      utf32_append_uint32(s, (uint32_t)b);
-      continue;
-    }
-
-    if ((b & 0xC0) == 0x80) {  // 10xxxxxx
+    if (!utf8_next_uint32_len(p, &l)) {
       return false;
     }
 
-    if ((b & 0xE0) == 0xC0) {  // 110xxxxx
-      l = 2;
-    } else if ((b & 0xF0) == 0xE0) {  // 1110xxxx
-      l = 3;
-    } else if ((b & 0xF8) == 0xF0) {  // 11110xxx
-      l = 4;
-    } else {
+    if (l > len) {
       return false;
     }
-
-    if (l - 1 > len) {
+    
+    if (!utf8_to_uint32(p, l, &cp)) {
       return false;
     }
-
-    cp = b & MASK_LOW(7 - l);
-    for (i = 1; i < l; i++) {
-      b = *p++;
-      len--;
-
-      if ((b & 0xC0) != 0x80) {
-        return false;
-      }
-
-      cp <<= 6;
-      cp |= b & 0x3F;
-    }
-
-    if (!get_num_utf8_units_cp_requires(cp, &b)) {
-      return false;
-    }
-
-    if (l != b) {  // overlong
-      return false;
-    }
-
+    
     utf32_append_uint32(s, cp);
+    p += l;
+    len -= l;
   }
 
   return true;

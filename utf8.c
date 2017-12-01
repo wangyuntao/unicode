@@ -115,6 +115,80 @@ bool utf8_is_well_formed(const uint8_t *p, size_t len) {
   return true;
 }
 
+bool utf8_next_uint32_len(const uint8_t *p, int *len) {
+  uint8_t b = *p;
+
+  if (b <= 0x7F) {  // 0xxxxxxx
+    *len = 1;
+    return true;
+  }
+
+  if ((b & 0xC0) == 0x80) {  // 10xxxxxx
+    return false;
+  }
+
+  if ((b & 0xE0) == 0xC0) {  // 110xxxxx
+    *len = 2;
+    return true;
+  }
+
+  if ((b & 0xF0) == 0xE0) {  // 1110xxxx
+    *len = 3;
+    return true;
+  }
+
+  if ((b & 0xF8) == 0xF0) {  // 11110xxx
+    *len = 4;
+    return true;
+  }
+
+  return false;
+}
+
+bool utf8_to_uint32(const uint8_t *p, int len, uint32_t *cp) {
+  uint8_t b, i;
+
+  if (len <= 0 || len > 4) {
+    return false;
+  }
+
+  b = *p++;
+
+  if (len == 1) {
+    if (b > 0x7F) {
+      return false;
+    }
+    *cp = (uint32_t) b;
+    return true;
+  }
+
+  if ((b & MASK_HIGH(len + 1, 8)) != MASK_HIGH(len, 8)) {
+    return false;
+  }
+
+  *cp = b & MASK_LOW(7 - len);
+  for (i = 1; i < len; i++) {
+    b = *p++;
+
+    if ((b & 0xC0) != 0x80) {
+      return false;
+    }
+
+    *cp <<= 6;
+    *cp |= b & 0x3F;
+  }
+
+  if (!get_num_utf8_units_cp_requires(*cp, &b)) {
+    return false;
+  }
+
+  if (len != b) {  // overlong
+    return false;
+  }
+
+  return true;
+}
+
 bool utf8_append_uint32(utf8_str *s, uint32_t cp) {
   uint8_t *p, b, l, i;
 

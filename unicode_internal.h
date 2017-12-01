@@ -44,6 +44,3 @@ bool get_num_utf8_units_cp_requires(uint32_t cp, uint8_t *n);
 bool get_num_utf16_units_cp_requires(uint32_t cp, uint8_t *n);
 
 #endif
-
-
-// TODO *_str -> *, append const
