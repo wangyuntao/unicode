@@ -31,6 +31,57 @@ bool utf16_is_well_formed(const uint16_t *p, size_t len) {
   return true;
 }
 
+bool utf16_next_uint32_len(const uint16_t *p, int *len) {
+  uint16_t a = *p;
+
+  if (!CP_IS_SURROGATE(a)) {
+    *len = 1;
+    return true;
+  }
+
+  if (!CP_IS_HIGH_SURROGATE(a)) {
+    return false;
+  }
+
+  *len = 2;
+  return true;
+}
+
+bool utf16_to_uint32(const uint16_t *p, int len, uint32_t *cp) {
+  uint16_t a, b;
+
+  if (len != 1 && len != 2) {
+    return false;
+  }
+
+  a = *p++;
+
+  if (len == 1) {
+    if (CP_IS_SURROGATE(a)) {
+      return false;
+    }
+    *cp = (uint32_t)a;
+    return true;
+  }
+
+  if (!CP_IS_HIGH_SURROGATE(a)) {
+    return false;
+  }
+
+  b = *p;
+  if (!CP_IS_LOW_SURROGATE(b)) {
+    return false;
+  }
+
+  a -= CP_MIN_HIGH_SURROGATE;
+  b -= CP_MIN_LOW_SURROGATE;
+
+  *cp = (a << 10) | b;
+  *cp += CP_MIN_SUPPLEMENTARY;
+
+  return true;
+}
+
 bool utf16_append_uint32(utf16_str *s, uint32_t cp) {
   uint16_t *p, a, b;
 

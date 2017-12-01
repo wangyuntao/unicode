@@ -74,6 +74,8 @@ bool utf8_append_uint32(utf8_str *s, uint32_t cp);
 
 // utf16 utils
 bool utf16_is_well_formed(const uint16_t *p, size_t len);
+bool utf16_next_uint32_len(const uint16_t *p, int *len);
+bool utf16_to_uint32(const uint16_t *p, int len, uint32_t *cp);
 bool utf16_append_uint32(utf16_str *s, uint32_t cp);
 
 // utf32 utils

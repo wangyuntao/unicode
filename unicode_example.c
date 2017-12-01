@@ -35,8 +35,9 @@ static void utf8_code_point_iterate(utf8_str *s) {
 }
 
 int main(int argc, char *argv[]) {
-  uint32_t *p = U"Hello, 世界";
-  uint32_t len = 9;
+  // Hello, 世界
+  uint32_t p[] = {0x48, 0x65, 0x6C, 0x6C, 0x6F, 0x2C, 0x20, 0x4E16, 0x754C}; 
+  size_t len = sizeof(p) / sizeof(p[0]);
 
   // Unicode code points -> utf8
   utf8_str *s = utf32_to_utf8(p, len);
