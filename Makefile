@@ -1,5 +1,5 @@
 
-ARG = -Wall -Werror -std=c99 -pedantic -g
+ARG = -Wall -Werror -std=c99 -pedantic
 SRC = unicode.c utf8.c utf16.c utf32.c
 OBJ = unicode.o utf8.o utf16.o utf32.o
 

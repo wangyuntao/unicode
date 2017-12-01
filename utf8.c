@@ -158,7 +158,7 @@ bool utf8_to_uint32(const uint8_t *p, int len, uint32_t *cp) {
     if (b > 0x7F) {
       return false;
     }
-    *cp = (uint32_t) b;
+    *cp = (uint32_t)b;
     return true;
   }
 

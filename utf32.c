@@ -22,11 +22,11 @@ bool utf32_append_uint8(utf32 *s, const uint8_t *p, size_t len) {
     if (l > len) {
       return false;
     }
-    
+
     if (!utf8_to_uint32(p, l, &cp)) {
       return false;
     }
-    
+
     utf32_append_uint32(s, cp);
     p += l;
     len -= l;
