@@ -4,7 +4,7 @@
 #include <inttypes.h>
 #include <stdio.h>
 
-static void utf8_code_point_iterate(utf8_str *s) {
+static void utf8_code_point_iterate(utf8 *s) {
   uint8_t *p;
   size_t l1;
   int l2;
@@ -40,14 +40,14 @@ int main(int argc, char *argv[]) {
   size_t len = sizeof(p) / sizeof(p[0]);
 
   // Unicode code points -> utf8
-  utf8_str *s = utf32_to_utf8(p, len);
+  utf8 *s = utf32_to_utf8(p, len);
   assert(s);
 
   assert(utf8_is_well_formed(s->p, s->len));
   printf("%.*s\n", (int)s->len, s->p);
 
   // utf8 -> utf32
-  utf32_str *s2 = utf8_to_utf32(s->p, s->len);
+  utf32 *s2 = utf8_to_utf32(s->p, s->len);
   assert(s2);
   assert(s2->len == len);
 

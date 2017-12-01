@@ -82,7 +82,7 @@ bool utf16_to_uint32(const uint16_t *p, int len, uint32_t *cp) {
   return true;
 }
 
-bool utf16_append_uint32(utf16_str *s, uint32_t cp) {
+bool utf16_append_uint32(utf16 *s, uint32_t cp) {
   uint16_t *p, a, b;
 
   if (cp < CP_MIN_SUPPLEMENTARY) {

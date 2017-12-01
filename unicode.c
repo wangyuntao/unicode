@@ -21,46 +21,46 @@ void *u_realloc(void *p, size_t size) {
 
 void u_free(void *p) { free(p); }
 
-utf8_str *utf8_new(size_t cap) {
-  utf8_str *s = u_malloc(sizeof(utf8_str));
+utf8 *utf8_new(size_t cap) {
+  utf8 *s = u_malloc(sizeof(utf8));
   s->p = u_malloc(sizeof(uint8_t) * cap);
   s->len = 0;
   s->cap = cap;
   return s;
 }
 
-utf16_str *utf16_new(size_t cap) {
-  utf16_str *s = u_malloc(sizeof(utf16_str));
+utf16 *utf16_new(size_t cap) {
+  utf16 *s = u_malloc(sizeof(utf16));
   s->p = u_malloc(sizeof(uint16_t) * cap);
   s->len = 0;
   s->cap = cap;
   return s;
 }
 
-utf32_str *utf32_new(size_t cap) {
-  utf32_str *s = u_malloc(sizeof(utf32_str));
+utf32 *utf32_new(size_t cap) {
+  utf32 *s = u_malloc(sizeof(utf32));
   s->p = u_malloc(sizeof(uint32_t) * cap);
   s->len = 0;
   s->cap = cap;
   return s;
 }
 
-void utf8_free(utf8_str *s) {
+void utf8_free(utf8 *s) {
   u_free(s->p);
   u_free(s);
 }
 
-void utf16_free(utf16_str *s) {
+void utf16_free(utf16 *s) {
   u_free(s->p);
   u_free(s);
 }
 
-void utf32_free(utf32_str *s) {
+void utf32_free(utf32 *s) {
   u_free(s->p);
   u_free(s);
 }
 
-uint8_t *utf8_add_len(utf8_str *s, size_t add_len) {
+uint8_t *utf8_add_len(utf8 *s, size_t add_len) {
   size_t len, cap;
 
   len = s->len + add_len;
@@ -84,7 +84,7 @@ uint8_t *utf8_add_len(utf8_str *s, size_t add_len) {
   return s->p + (len - add_len);
 }
 
-uint16_t *utf16_add_len(utf16_str *s, size_t add_len) {
+uint16_t *utf16_add_len(utf16 *s, size_t add_len) {
   size_t len, cap;
 
   len = s->len + add_len;
@@ -108,7 +108,7 @@ uint16_t *utf16_add_len(utf16_str *s, size_t add_len) {
   return s->p + (len - add_len);
 }
 
-uint32_t *utf32_add_len(utf32_str *s, size_t add_len) {
+uint32_t *utf32_add_len(utf32 *s, size_t add_len) {
   size_t len, cap;
 
   len = s->len + add_len;
@@ -132,19 +132,19 @@ uint32_t *utf32_add_len(utf32_str *s, size_t add_len) {
   return s->p + (len - add_len);
 }
 
-utf16_str *utf8_to_utf16(const uint8_t *p, size_t len) {
-  utf32_str *s = utf8_to_utf32(p, len);
+utf16 *utf8_to_utf16(const uint8_t *p, size_t len) {
+  utf32 *s = utf8_to_utf32(p, len);
   if (s == NULL) return NULL;
 
-  utf16_str *s2 = utf32_to_utf16(s->p, s->len);
+  utf16 *s2 = utf32_to_utf16(s->p, s->len);
   utf32_free(s);
 
   if (s2 == NULL) return NULL;
   return s2;
 }
 
-utf32_str *utf8_to_utf32(const uint8_t *p, size_t len) {
-  utf32_str *s = utf32_new(len / 2);
+utf32 *utf8_to_utf32(const uint8_t *p, size_t len) {
+  utf32 *s = utf32_new(len / 2);
   if (!utf32_append_uint8(s, p, len)) {
     utf32_free(s);
     return NULL;
@@ -152,19 +152,19 @@ utf32_str *utf8_to_utf32(const uint8_t *p, size_t len) {
   return s;
 }
 
-utf8_str *utf16_to_utf8(const uint16_t *p, size_t len) {
-  utf32_str *s = utf16_to_utf32(p, len);
+utf8 *utf16_to_utf8(const uint16_t *p, size_t len) {
+  utf32 *s = utf16_to_utf32(p, len);
   if (s == NULL) return NULL;
 
-  utf8_str *s2 = utf32_to_utf8(s->p, s->len);
+  utf8 *s2 = utf32_to_utf8(s->p, s->len);
   utf32_free(s);
 
   if (s2 == NULL) return NULL;
   return s2;
 }
 
-utf32_str *utf16_to_utf32(const uint16_t *p, size_t len) {
-  utf32_str *s = utf32_new(len / 2);
+utf32 *utf16_to_utf32(const uint16_t *p, size_t len) {
+  utf32 *s = utf32_new(len / 2);
   if (!utf32_append_uint16(s, p, len)) {
     utf32_free(s);
     return NULL;
@@ -172,8 +172,8 @@ utf32_str *utf16_to_utf32(const uint16_t *p, size_t len) {
   return s;
 }
 
-utf8_str *utf32_to_utf8(const uint32_t *p, size_t len) {
-  utf8_str *s;
+utf8 *utf32_to_utf8(const uint32_t *p, size_t len) {
+  utf8 *s;
   size_t i;
 
   s = utf8_new(len);
@@ -186,8 +186,8 @@ utf8_str *utf32_to_utf8(const uint32_t *p, size_t len) {
   return s;
 }
 
-utf16_str *utf32_to_utf16(const uint32_t *p, size_t len) {
-  utf16_str *s;
+utf16 *utf32_to_utf16(const uint32_t *p, size_t len) {
+  utf16 *s;
   size_t i;
 
   s = utf16_new(len);

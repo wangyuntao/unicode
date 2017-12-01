@@ -36,9 +36,9 @@ void *u_malloc(size_t size);
 void *u_realloc(void *p, size_t size);
 void u_free(void *p);
 
-uint8_t *utf8_add_len(utf8_str *s, size_t add_len);
-uint16_t *utf16_add_len(utf16_str *s, size_t add_len);
-uint32_t *utf32_add_len(utf32_str *s, size_t add_len);
+uint8_t *utf8_add_len(utf8 *s, size_t add_len);
+uint16_t *utf16_add_len(utf16 *s, size_t add_len);
+uint32_t *utf32_add_len(utf32 *s, size_t add_len);
 
 bool get_num_utf8_units_cp_requires(uint32_t cp, uint8_t *n);
 bool get_num_utf16_units_cp_requires(uint32_t cp, uint8_t *n);

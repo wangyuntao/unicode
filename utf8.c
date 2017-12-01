@@ -189,7 +189,7 @@ bool utf8_to_uint32(const uint8_t *p, int len, uint32_t *cp) {
   return true;
 }
 
-bool utf8_append_uint32(utf8_str *s, uint32_t cp) {
+bool utf8_append_uint32(utf8 *s, uint32_t cp) {
   uint8_t *p, b, l, i;
 
   if (!get_num_utf8_units_cp_requires(cp, &l)) {

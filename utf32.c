@@ -10,7 +10,7 @@ bool utf32_is_well_formed(const uint32_t *p, size_t len) {
   return true;
 }
 
-bool utf32_append_uint8(utf32_str *s, const uint8_t *p, size_t len) {
+bool utf32_append_uint8(utf32 *s, const uint8_t *p, size_t len) {
   uint32_t cp;
   int l;
 
@@ -35,7 +35,7 @@ bool utf32_append_uint8(utf32_str *s, const uint8_t *p, size_t len) {
   return true;
 }
 
-bool utf32_append_uint16(utf32_str *s, const uint16_t *p, size_t len) {
+bool utf32_append_uint16(utf32 *s, const uint16_t *p, size_t len) {
   uint32_t cp;
   int l;
 
@@ -60,7 +60,7 @@ bool utf32_append_uint16(utf32_str *s, const uint16_t *p, size_t len) {
   return true;
 }
 
-bool utf32_append_uint32(utf32_str *s, uint32_t cp) {
+bool utf32_append_uint32(utf32 *s, uint32_t cp) {
   uint32_t *p = utf32_add_len(s, 1);
   *p = cp;
   return true;
